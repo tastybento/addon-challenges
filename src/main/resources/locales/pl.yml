@@ -524,6 +524,9 @@ challenges:
       skull-owner: "[owner]"
       egg-meta: "[mob]"
       fish-meta: "[body-color] with [pattern-color] [pattern]"
+      predefined-fish: '  [fish-name]'
+      banner-pattern: '  [pattern]'
+      music-disk-desc: '  [desc]'
     questions:
       prefix: "&2 [SERWER]:"
       admin:

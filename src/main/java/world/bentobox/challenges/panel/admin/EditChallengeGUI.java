@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -17,6 +18,7 @@ import world.bentobox.bentobox.api.panels.PanelItem;
 import world.bentobox.bentobox.api.panels.builders.PanelBuilder;
 import world.bentobox.bentobox.api.panels.builders.PanelItemBuilder;
 import world.bentobox.bentobox.api.user.User;
+import world.bentobox.bentobox.hooks.LangUtilsHook;
 import world.bentobox.bentobox.util.Util;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
@@ -436,11 +438,12 @@ public class EditChallengeGUI extends CommonGUI
             description.add(this.user.getTranslation("challenges.gui.descriptions.admin.environment"));
 
             description.add((this.challenge.getEnvironment().contains(World.Environment.NORMAL) ? "&2" : "&c") +
-                    this.user.getTranslation("challenges.gui.descriptions.normal"));
+                    // If color code is removed from here, users can use color code in language files.
+                    ChatColor.stripColor(this.user.getTranslation("challenges.gui.descriptions.normal")));
             description.add((this.challenge.getEnvironment().contains(World.Environment.NETHER) ? "&2" : "&c") +
-                    this.user.getTranslation("challenges.gui.descriptions.nether"));
+                    ChatColor.stripColor(this.user.getTranslation("challenges.gui.descriptions.nether")));
             description.add((this.challenge.getEnvironment().contains(World.Environment.THE_END) ? "&2" : "&c") +
-                    this.user.getTranslation("challenges.gui.descriptions.the-end"));
+                    ChatColor.stripColor(this.user.getTranslation("challenges.gui.descriptions.the-end")));
 
             icon = new ItemStack(Material.DROPPER);
             clickHandler = (panel, user, clickType, slot) -> {
@@ -644,7 +647,7 @@ public class EditChallengeGUI extends CommonGUI
             for (Map.Entry<EntityType, Integer> entry : requirements.getRequiredEntities().entrySet())
             {
                 description.add(this.user.getTranslation("challenges.gui.descriptions.entity",
-                        "[entity]", Util.prettifyText(entry.getKey().name()),
+                        "[entity]", LangUtilsHook.getEntityName(entry.getKey(), user),
                         "[count]", Integer.toString(entry.getValue())));
             }
 
@@ -694,7 +697,7 @@ public class EditChallengeGUI extends CommonGUI
             for (Map.Entry<Material, Integer> entry : requirements.getRequiredBlocks().entrySet())
             {
                 description.add(this.user.getTranslation("challenges.gui.descriptions.block",
-                        "[block]", entry.getKey().name(),
+                        "[block]", LangUtilsHook.getMaterialName(entry.getKey(), user),
                         "[count]", Integer.toString(entry.getValue())));
             }
 
